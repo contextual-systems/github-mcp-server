@@ -95,6 +95,10 @@ var (
 		ID:          "dynamic",
 		Description: "Discover GitHub MCP tools that can help achieve tasks by enabling additional sets of tools, you can control the enablement of any toolset to access its tools when this toolset is enabled.",
 	}
+	ToolsetMetadataCodespaces = ToolsetMetadata{
+		ID:          "codespaces",
+		Description: "GitHub Codespaces related tools for managing development environments",
+	}
 )
 
 func AvailableTools() []ToolsetMetadata {
@@ -116,6 +120,7 @@ func AvailableTools() []ToolsetMetadata {
 		ToolsetMetadataSecurityAdvisories,
 		ToolsetMetadataProjects,
 		ToolsetMetadataStargazers,
+		ToolsetMetadataCodespaces,
 		ToolsetMetadataDynamic,
 	}
 }
@@ -127,6 +132,7 @@ func GetDefaultToolsetIDs() []string {
 		ToolsetMetadataIssues.ID,
 		ToolsetMetadataPullRequests.ID,
 		ToolsetMetadataUsers.ID,
+		ToolsetMetadataCodespaces.ID,
 	}
 }
 
@@ -288,8 +294,8 @@ func DefaultToolsetGroup(readOnly bool, getClient GetClientFn, getGQLClient GetG
 	contextTools := toolsets.NewToolset(ToolsetMetadataContext.ID, ToolsetMetadataContext.Description).
 		AddReadTools(
 			toolsets.NewServerTool(GetMe(getClient, t)),
-			toolsets.NewServerTool(GetTeams(getClient, getGQLClient, t)),
-			toolsets.NewServerTool(GetTeamMembers(getGQLClient, t)),
+			toolsets.NewServerTool(GetTeams(getClient, t)),
+			toolsets.NewServerTool(GetTeamMembers(getClient, t)),
 		)
 
 	gists := toolsets.NewToolset(ToolsetMetadataGists.ID, ToolsetMetadataGists.Description).
@@ -323,6 +329,16 @@ func DefaultToolsetGroup(readOnly bool, getClient GetClientFn, getGQLClient GetG
 			toolsets.NewServerTool(UnstarRepository(getClient, t)),
 		)
 
+	codespaces := toolsets.NewToolset(ToolsetMetadataCodespaces.ID, ToolsetMetadataCodespaces.Description).
+		AddReadTools(
+			toolsets.NewServerTool(ListCodespaces(getClient, t)),
+		).
+		AddWriteTools(
+			toolsets.NewServerTool(CreateCodespace(getClient, t)),
+			toolsets.NewServerTool(StopCodespace(getClient, t)),
+			toolsets.NewServerTool(DeleteCodespace(getClient, t)),
+		)
+
 	// Add toolsets to the group
 	tsg.AddToolset(contextTools)
 	tsg.AddToolset(repos)
@@ -341,6 +357,7 @@ func DefaultToolsetGroup(readOnly bool, getClient GetClientFn, getGQLClient GetG
 	tsg.AddToolset(securityAdvisories)
 	tsg.AddToolset(projects)
 	tsg.AddToolset(stargazers)
+	tsg.AddToolset(codespaces)
 
 	return tsg
 }
