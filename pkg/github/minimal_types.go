@@ -11,16 +11,6 @@ type MinimalUser struct {
 	Details    *UserDetails `json:"details,omitempty"` // Optional field for additional user details
 }
 
-// UserDetails contains additional user information
-type UserDetails struct {
-	PublicRepos  int      `json:"public_repos"`
-	PublicGists  int      `json:"public_gists"`
-	Followers    int      `json:"followers"`
-	Following    int      `json:"following"`
-	CreatedAt    string   `json:"created_at"`
-	UpdatedAt    string   `json:"updated_at"`
-}
-
 // MinimalSearchUsersResult is the trimmed output type for user search results.
 type MinimalSearchUsersResult struct {
 	TotalCount        int           `json:"total_count"`
