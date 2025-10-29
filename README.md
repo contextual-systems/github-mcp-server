@@ -1,10 +1,13 @@
-# GitHub MCP Server
+# The Contextual Systems GitHub MCP Server Fork
 
 The GitHub MCP Server connects AI tools directly to GitHub's platform. This gives AI agents, assistants, and chatbots the ability to read repositories and code files, manage issues and PRs, analyze code, and automate workflows. All through natural language interactions.
+
+What makes this fork different? **We've added Codespaces support** - something that's lacking in the GitHub release! Where normal usage would require the inclusion of external tools like GitHub CLI, executing commands directly in your terminal, this native support in the MCP means that there's no longer any external access to your system required to complete basic tasks!
 
 ### Use Cases
 
 - Repository Management: Browse and query code, search files, analyze commits, and understand project structure across any repository you have access to.
+- Codespace Management: List, start, stop, and delete Codespaces. Have a remote development environment at your fingertips without needing to leave your IDE.
 - Issue & PR Automation: Create, update, and manage issues and pull requests. Let AI help triage bugs, review code changes, and maintain project boards.
 - CI/CD & Workflow Intelligence: Monitor GitHub Actions workflow runs, analyze build failures, manage releases, and get insights into your development pipeline.
 - Code Analysis: Examine security findings, review Dependabot alerts, understand code patterns, and get comprehensive insights into your codebase.
@@ -14,102 +17,14 @@ Built for developers who want to connect their AI tools to GitHub context and ca
 
 ---
 
-## Remote GitHub MCP Server
-
-[![Install in VS Code](https://img.shields.io/badge/VS_Code-Install_Server-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=github&config=%7B%22type%22%3A%20%22http%22%2C%22url%22%3A%20%22https%3A%2F%2Fapi.githubcopilot.com%2Fmcp%2F%22%7D) [![Install in VS Code Insiders](https://img.shields.io/badge/VS_Code_Insiders-Install_Server-24bfa5?style=flat-square&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=github&config=%7B%22type%22%3A%20%22http%22%2C%22url%22%3A%20%22https%3A%2F%2Fapi.githubcopilot.com%2Fmcp%2F%22%7D&quality=insiders)
-
-The remote GitHub MCP Server is hosted by GitHub and provides the easiest method for getting up and running. If your MCP host does not support remote MCP servers, don't worry! You can use the [local version of the GitHub MCP Server](https://github.com/github/github-mcp-server?tab=readme-ov-file#local-github-mcp-server) instead.
-
-### Prerequisites
-
-1. A compatible MCP host with remote server support (VS Code 1.101+, Claude Desktop, Cursor, Windsurf, etc.)
-2. Any applicable [policies enabled](https://github.com/github/github-mcp-server/blob/main/docs/policies-and-governance.md)
-
-### Install in VS Code
-
-For quick installation, use one of the one-click install buttons above. Once you complete that flow, toggle Agent mode (located by the Copilot Chat text input) and the server will start. Make sure you're using [VS Code 1.101](https://code.visualstudio.com/updates/v1_101) or [later](https://code.visualstudio.com/updates) for remote MCP and OAuth support.
-
-Alternatively, to manually configure VS Code, choose the appropriate JSON block from the examples below and add it to your host configuration:
-
-<table>
-<tr><th>Using OAuth</th><th>Using a GitHub PAT</th></tr>
-<tr><th align=left colspan=2>VS Code (version 1.101 or greater)</th></tr>
-<tr valign=top>
-<td>
-
-```json
-{
-  "servers": {
-    "github": {
-      "type": "http",
-      "url": "https://api.githubcopilot.com/mcp/"
-    }
-  }
-}
-```
-
-</td>
-<td>
-
-```json
-{
-  "servers": {
-    "github": {
-      "type": "http",
-      "url": "https://api.githubcopilot.com/mcp/",
-      "headers": {
-        "Authorization": "Bearer ${input:github_mcp_pat}"
-      }
-    }
-  },
-  "inputs": [
-    {
-      "type": "promptString",
-      "id": "github_mcp_pat",
-      "description": "GitHub Personal Access Token",
-      "password": true
-    }
-  ]
-}
-```
-
-</td>
-</tr>
-</table>
-
-### Install in other MCP hosts
-- **[GitHub Copilot in other IDEs](/docs/installation-guides/install-other-copilot-ides.md)** - Installation for JetBrains, Visual Studio, Eclipse, and Xcode with GitHub Copilot
-- **[Claude Applications](/docs/installation-guides/install-claude.md)** - Installation guide for Claude Web, Claude Desktop and Claude Code CLI
-- **[Cursor](/docs/installation-guides/install-cursor.md)** - Installation guide for Cursor IDE
-- **[Windsurf](/docs/installation-guides/install-windsurf.md)** - Installation guide for Windsurf IDE
-
-> **Note:** Each MCP host application needs to configure a GitHub App or OAuth App to support remote access via OAuth. Any host application that supports remote MCP servers should support the remote GitHub server with PAT authentication. Configuration details and support levels vary by host. Make sure to refer to the host application's documentation for more info.
-
-### Configuration
-
-#### Default toolset configuration
-
-The default configuration is:
-- context
-- repos
-- issues
-- pull_requests
-- users
-
-See [Remote Server Documentation](docs/remote-server.md) for full details on remote server configuration, toolsets, headers, and advanced usage. This file provides comprehensive instructions and examples for connecting, customizing, and installing the remote GitHub MCP Server in VS Code and other MCP hosts.
-
----
-
 ## Local GitHub MCP Server
-
-[![Install with Docker in VS Code](https://img.shields.io/badge/VS_Code-Install_Server-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=github&inputs=%5B%7B%22id%22%3A%22github_token%22%2C%22type%22%3A%22promptString%22%2C%22description%22%3A%22GitHub%20Personal%20Access%20Token%22%2C%22password%22%3Atrue%7D%5D&config=%7B%22command%22%3A%22docker%22%2C%22args%22%3A%5B%22run%22%2C%22-i%22%2C%22--rm%22%2C%22-e%22%2C%22GITHUB_PERSONAL_ACCESS_TOKEN%22%2C%22ghcr.io%2Fgithub%2Fgithub-mcp-server%22%5D%2C%22env%22%3A%7B%22GITHUB_PERSONAL_ACCESS_TOKEN%22%3A%22%24%7Binput%3Agithub_token%7D%22%7D%7D) [![Install with Docker in VS Code Insiders](https://img.shields.io/badge/VS_Code_Insiders-Install_Server-24bfa5?style=flat-square&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=github&inputs=%5B%7B%22id%22%3A%22github_token%22%2C%22type%22%3A%22promptString%22%2C%22description%22%3A%22GitHub%20Personal%20Access%20Token%22%2C%22password%22%3Atrue%7D%5D&config=%7B%22command%22%3A%22docker%22%2C%22args%22%3A%5B%22run%22%2C%22-i%22%2C%22--rm%22%2C%22-e%22%2C%22GITHUB_PERSONAL_ACCESS_TOKEN%22%2C%22ghcr.io%2Fgithub%2Fgithub-mcp-server%22%5D%2C%22env%22%3A%7B%22GITHUB_PERSONAL_ACCESS_TOKEN%22%3A%22%24%7Binput%3Agithub_token%7D%22%7D%7D&quality=insiders)
 
 ### Prerequisites
 
 1. To run the server in a container, you will need to have [Docker](https://www.docker.com/) installed.
 2. Once Docker is installed, you will also need to ensure Docker is running. The image is public; if you get errors on pull, you may have an expired token and need to `docker logout ghcr.io`.
 3. Lastly you will need to [Create a GitHub Personal Access Token](https://github.com/settings/personal-access-tokens/new).
-The MCP server can use many of the GitHub APIs, so enable the permissions that you feel comfortable granting your AI tools (to learn more about access tokens, please check out the [documentation](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens)).
+The MCP server can use many of the GitHub APIs, so enable the permissions that you feel comfortable granting your AI tools (to learn more about access tokens, please check out the [documentation](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens)). **Note*** With the addition of Codespaces support, the `Codespaces` scope is _required_.
 
 <details><summary><b>Handling PATs Securely</b></summary>
 
@@ -150,6 +65,7 @@ To keep your GitHub PAT secure and reusable across different MCP hosts:
   - `repo` - Repository operations
   - `read:packages` - Docker image access
   - `read:org` - Organization team access
+  - `codespaces` - Manage Github Codespaces
 - **Separate tokens**: Use different PATs for different projects/environments
 - **Regular rotation**: Update tokens periodically
 - **Never commit**: Keep tokens out of version control
@@ -192,7 +108,7 @@ Add the following JSON block to your IDE's MCP settings.
           "--rm",
           "-e",
           "GITHUB_PERSONAL_ACCESS_TOKEN",
-          "ghcr.io/github/github-mcp-server"
+          "ghcr.io/contextual-systems/github-mcp-server"
         ],
         "env": {
           "GITHUB_PERSONAL_ACCESS_TOKEN": "${input:github_token}"
@@ -228,7 +144,7 @@ Optionally, you can add a similar example (i.e. without the mcp key) to a file c
         "--rm",
         "-e",
         "GITHUB_PERSONAL_ACCESS_TOKEN",
-        "ghcr.io/github/github-mcp-server"
+        "ghcr.io/contextual-systems/github-mcp-server"
       ],
       "env": {
         "GITHUB_PERSONAL_ACCESS_TOKEN": "${input:github_token}"
@@ -252,28 +168,7 @@ For other MCP host applications, please refer to our installation guides:
 
 For a complete overview of all installation options, see our **[Installation Guides Index](docs/installation-guides)**.
 
-> **Note:** Any host application that supports local MCP servers should be able to access the local GitHub MCP server. However, the specific configuration process, syntax and stability of the integration will vary by host application. While many may follow a similar format to the examples above, this is not guaranteed. Please refer to your host application's documentation for the correct MCP configuration syntax and setup process.
-
-### Build from source
-
-If you don't have Docker, you can use `go build` to build the binary in the
-`cmd/github-mcp-server` directory, and use the `github-mcp-server stdio` command with the `GITHUB_PERSONAL_ACCESS_TOKEN` environment variable set to your token. To specify the output location of the build, use the `-o` flag. You should configure your server to use the built executable as its `command`. For example:
-
-```JSON
-{
-  "mcp": {
-    "servers": {
-      "github": {
-        "command": "/path/to/github-mcp-server",
-        "args": ["stdio"],
-        "env": {
-          "GITHUB_PERSONAL_ACCESS_TOKEN": "<YOUR_TOKEN>"
-        }
-      }
-    }
-  }
-}
-```
+> **Note:** At this time only VSCode has been tested by the developers of this fork, however it should function as expected with the systems above as well.
 
 ## Tool Configuration
 
@@ -349,6 +244,7 @@ The following sets of tools are available (all are on by default):
 | `security_advisories` | Security advisories related tools |
 | `stargazers` | GitHub Stargazers related tools |
 | `users` | GitHub User related tools |
+| `codespaces` | GitHub Codespaces related tools |
 <!-- END AUTOMATED TOOLSETS -->
 
 ## Tools
@@ -468,6 +364,25 @@ The following sets of tools are available (all are on by default):
 </details>
 
 <details>
+
+<summary>Codespaces</summary>
+
+- **list_codespaces** - List running Codespaces
+  - No parameters required
+
+- **start_codespace** - Start a Codespace under the current repository
+  - `owner`: Repository owner (string, required)
+  - `repo`: Repository name (string, required)
+  - `branch`: Branch to create the Codespace on (string, optional)
+  - `machine`: Machine type for the Codespace (string, optional)
+
+- **stop_codespace** - Stop a running Codespace
+  - `name`: Name of the Codespace to stop (string, required)
+
+- **delete_codespace** -  Delete a Codespace
+  - `name`: Name of the Codespace to delete (string, required)
+
+</details>
 
 <summary>Context</summary>
 
