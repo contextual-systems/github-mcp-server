@@ -80,8 +80,6 @@ To keep your GitHub PAT secure and reusable across different MCP hosts:
 
 ### Install in GitHub Copilot on VS Code
 
-For quick installation, use one of the one-click install buttons above. Once you complete that flow, toggle Agent mode (located by the Copilot Chat text input) and the server will start.
-
 More about using MCP server tools in VS Code's [agent mode documentation](https://code.visualstudio.com/docs/copilot/chat/mcp-servers).
 
 Install in GitHub Copilot on other IDEs (JetBrains, Visual Studio, Eclipse, etc.)
@@ -219,6 +217,15 @@ Or using the environment variable:
 ```bash
 GITHUB_TOOLSETS="all" ./github-mcp-server
 ```
+
+### Contributing to this fork
+
+If you want to help us continue to improve the functionality of this fork of the GitHub MCP Server, please open a pull request with your changes!
+
+- Fork the repository
+- Make your changes
+- Open a pull request with your changes, ensuring that you include a thorough description of what you're fixing or introducing
+- Wait for a review or test build!
 
 ### Available Toolsets
 
