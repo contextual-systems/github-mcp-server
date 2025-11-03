@@ -220,7 +220,7 @@ GITHUB_TOOLSETS="all" ./github-mcp-server
 
 ### Contributing to this fork
 
-If you want to help us continue to improve the functionality of this fork of the GitHub MCP Server, please open a pul request with your changes!
+If you want to help us continue to improve the functionality of this fork of the GitHub MCP Server, please open a pull request with your changes!
 
 - Fork the repository
 - Make your changes
