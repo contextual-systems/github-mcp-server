@@ -1,7 +1,6 @@
 name: Build and Push Docker Image to GHCR
 
 on:
-  pull_request_target:
   push:
     branches:
       - "*"
@@ -13,6 +12,8 @@ on:
         description: 'Custom tag for the image'
         required: false
         default: 'latest'
+  issue_comment:
+    types: [created]
 
 env:
   REGISTRY: ghcr.io
@@ -26,6 +27,7 @@ jobs:
       packages: write
 
     steps:
+
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -47,3 +49,12 @@ jobs:
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.event.inputs.tag || github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - name: Debug output for build 
+        env:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_TOKEN }}
+        run: |
+          comment="${{ github.event.comment.body }}"
+          echo "Comment: $comment"
