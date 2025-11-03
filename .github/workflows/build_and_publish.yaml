@@ -50,6 +50,10 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
+  debug:
+    runs-on: ubuntu-latest
+    if: github.event.issue.pull_request
+    steps:
       - name: Debug output for build 
         env:
           registry: ${{ env.REGISTRY }}
