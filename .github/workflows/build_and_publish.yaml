@@ -55,6 +55,9 @@ jobs:
     if: github.event.issue.pull_request
     steps:
       - name: Debug output for build 
+        env:
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_TOKEN }}
         run: |
           comment="${{ github.event.comment.body }}"
           echo "Comment: $comment"
